@@ -31,18 +31,25 @@
 
         /* Секция Интро */
         .intro-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: #000;
-            z-index: 100;
-        }
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    z-index: 100;
+    /* Добавляем задержку в 9 секунд, чтобы интро ушло ровно перед появлением KOS KELDIN */
+    animation: hideIntro 0.1s 9s forwards; 
+}
+
+        @keyframes hideIntro {
+    0% { z-index: 100; }
+    100% { z-index: -1; visibility: hidden; }
+}
 
         .nick-animation {
             font-size: 2.5rem;
