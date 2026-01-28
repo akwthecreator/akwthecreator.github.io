@@ -104,6 +104,38 @@
             text-transform: uppercase;
             color: #555; /* Менее заметный цвет */
         }
+        /* Настройки для телефонов */
+@media (max-width: 768px) {
+    .nick-animation {
+        font-size: 1.5rem; /* Уменьшаем шрифт ника, чтобы влез в одну строку */
+        letter-spacing: 5px; /* Сужаем интервал между буквами */
+    }
+
+    .main-logo {
+        width: 100px; /* Уменьшаем логотип */
+    }
+
+    .film-logos {
+        bottom: 30px; /* Поднимаем нижние лого чуть выше */
+        gap: 20px;    /* Сближаем их */
+    }
+
+    .film-logos img {
+        height: 15px; /* Делаем нижние лого еще меньше */
+    }
+
+    .welcome-text {
+        font-size: 1.8rem; /* Уменьшаем KOS KELDIN */
+        letter-spacing: 8px;
+        text-align: center;
+        padding: 0 20px;
+    }
+
+    .sub-text {
+        font-size: 0.6rem;
+        letter-spacing: 3px;
+    }
+}
     </style>
 </head>
 <body>
