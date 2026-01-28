@@ -52,12 +52,14 @@
 }
 
         .nick-animation {
-            font-size: 2.5rem;
-            letter-spacing: 10px;
-            font-weight: 200;
-            text-transform: uppercase;
-            animation: fadeInOut 4s forwards; /* Появление и исчезновение ника */
-        }
+    width: 100%; /* Занимаем всю ширину */
+    text-align: center; /* Центрируем текст внутри */
+    font-size: 2.5rem;
+    letter-spacing: 10px;
+    font-weight: 200;
+    text-transform: uppercase;
+    animation: fadeInOut 4s forwards;
+}
 
         .main-logo {
             width: 150px;
@@ -81,14 +83,16 @@
 
         /* Основной экран (после интро) */
         .main-content {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            animation: fadeInFinal 2s 9s forwards; /* Появится в самом конце */
-        }
+    width: 100%; /* Важно! */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center; /* Центровка для всех дочерних элементов */
+    opacity: 0;
+    animation: fadeInFinal 2s 9s forwards;
+}
 
         .welcome-text {
             font-size: 3rem;
@@ -107,8 +111,10 @@
         /* Настройки для телефонов */
 @media (max-width: 768px) {
     .nick-animation {
-        font-size: 1.5rem; /* Уменьшаем шрифт ника, чтобы влез в одну строку */
-        letter-spacing: 5px; /* Сужаем интервал между буквами */
+        width: 100%;
+        font-size: 1.4rem; /* Еще чуть меньше для верности */
+        letter-spacing: 4px;
+        text-align: center;
     }
 
     .main-logo {
@@ -125,10 +131,10 @@
     }
 
     .welcome-text {
-        font-size: 1.8rem; /* Уменьшаем KOS KELDIN */
-        letter-spacing: 8px;
+        width: 100%;
+        font-size: 1.8rem;
+        letter-spacing: 6px;
         text-align: center;
-        padding: 0 20px;
     }
 
     .sub-text {
@@ -152,7 +158,7 @@
     </div>
 
     <div class="main-content">
-        <div class="welcome-text">KOS KELDIN</div>
+        <div class="welcome-text">KOW KELDIN</div>
         <div class="sub-text">Welcome</div>
     </div>
 
