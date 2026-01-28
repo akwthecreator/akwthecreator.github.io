@@ -1,13 +1,120 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AKW THE CREATOR</title>
     <style>
-        body { background: #000; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; }
-        h1 { font-size: 3rem; letter-spacing: 5px; }
+        /* Общие стили */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000; /* Тот самый черный фон */
+            color: #fff;
+            font-family: 'Inter', sans-serif; /* Популярный минималистичный шрифт */
+            overflow-x: hidden;
+        }
+
+        /* Анимация появления */
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes fadeInFinal {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Секция Интро */
+        .intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+            z-index: 100;
+        }
+
+        .nick-animation {
+            font-size: 2.5rem;
+            letter-spacing: 10px;
+            font-weight: 200;
+            text-transform: uppercase;
+            animation: fadeInOut 4s forwards; /* Появление и исчезновение ника */
+        }
+
+        .main-logo {
+            width: 150px;
+            opacity: 0;
+            animation: fadeInOut 4s 4.5s forwards; /* Появится после ника */
+        }
+
+        .film-logos {
+            position: absolute;
+            bottom: 50px;
+            display: flex;
+            gap: 40px;
+            opacity: 0;
+            animation: fadeInOut 4s 4.5s forwards;
+        }
+
+        .film-logos img {
+            height: 20px;
+            filter: brightness(0.7); /* Делаем чуть тусклее, как в титрах */
+        }
+
+        /* Основной экран (после интро) */
+        .main-content {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            animation: fadeInFinal 2s 9s forwards; /* Появится в самом конце */
+        }
+
+        .welcome-text {
+            font-size: 3rem;
+            letter-spacing: 15px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .sub-text {
+            font-size: 0.8rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: #555; /* Менее заметный цвет */
+        }
     </style>
 </head>
 <body>
-    <h1>AKW THE CREATOR</h1>
+
+    <div class="intro-screen">
+        <div class="nick-animation">AKW THE CREATOR</div>
+        
+        <img src="https://via.placeholder.com/150/000000/FFFFFF?text=LOGO" alt="Logo" class="main-logo">
+
+        <div class="film-logos">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/66/Sony_Pictures_Television_Logo_2020.png" alt="Sony">
+            <img src="https://via.placeholder.com/60x20/000000/FFFFFF?text=CREATOR" alt="Brand">
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="welcome-text">KOS KELDIN</div>
+        <div class="sub-text">Welcome</div>
+    </div>
+
 </body>
 </html>
