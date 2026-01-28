@@ -81,17 +81,52 @@
             filter: brightness(0.7); /* Делаем чуть тусклее, как в титрах */
         }
 
-        /* Основной экран (после интро) */
-        .main-content {
-    width: 100%; /* Важно! */
+        /* Контейнер для видео */
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2; /* Уходит на самый задний план */
+    overflow: hidden;
+}
+
+.video-background video {
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    object-fit: cover; /* Чтобы видео заполняло весь экран без черных полос */
+}
+
+/* Слой затемнения */
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* 0.7 — это степень затемнения (от 0 до 1) */
+    z-index: -1; /* Между видео и текстом */
+}
+
+/* Убедись, что main-content теперь имеет relative позиционирование */
+.main-content {
+    position: relative;
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center; /* Центровка для всех дочерних элементов */
+    text-align: center;
     opacity: 0;
     animation: fadeInFinal 2s 9s forwards;
+    overflow: hidden;
 }
 
         .welcome-text {
@@ -161,6 +196,18 @@
         <div class="welcome-text">KOW KELDIN</div>
         <div class="sub-text">Welcome</div>
     </div>
+<div class="main-content">
+    <div class="video-background">
+        <video autoplay muted loop playsinline id="bg-video">
+            <source src="HeyMama.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    
+    <div class="video-overlay"></div>
 
+    <div class="welcome-text">KOS KELDIN</div>
+    <div class="sub-text">Welcome</div>
+</div>
 </body>
 </html>
