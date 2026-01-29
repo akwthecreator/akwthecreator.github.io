@@ -103,6 +103,26 @@
     transform: translate(-50%, -50%);
     object-fit: cover; /* Чтобы видео заполняло весь экран без черных полос */
 }
+        .nav-links {
+    margin-top: 30px;
+    display: flex;
+    gap: 40px;
+    z-index: 10;
+}
+
+.nav-item {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    border-bottom: 1px solid #fff; /* Та самая линия под словом */
+    padding-bottom: 5px;
+    transition: opacity 0.3s;
+}
+
+.nav-item:hover {
+    opacity: 0.6; /* Эффект при наведении */
+}
 
 /* Слой затемнения */
 .video-overlay {
@@ -204,6 +224,10 @@
 
     <div class="welcome-text">KOW KELDIN</div>
     <div class="sub-text">Welcome</div>
+        <div class="nav-links">
+    <a href="duken.html" class="nav-item">DUKEN</a>
+    <a href="archive.html" class="nav-item">ARCHIVE</a>
+</div>
 </div>
 </body>
 </html>
