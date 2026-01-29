@@ -45,6 +45,17 @@
     /* Добавляем задержку в 9 секунд, чтобы интро ушло ровно перед появлением KOS KELDIN */
     animation: hideIntro 0.1s 9s forwards; 
 }
+        .site-footer {
+    position: absolute;
+    bottom: 20px; /* Отступ от самого низа */
+    width: 100%;
+    text-align: center;
+    font-size: 0.5rem; /* Очень маленький шрифт */
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.4); /* Полупрозрачный белый (серый) */
+    text-transform: uppercase;
+    font-weight: 200;
+}
 
         @keyframes hideIntro {
     0% { z-index: 100; }
