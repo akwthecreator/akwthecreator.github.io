@@ -242,7 +242,24 @@
             .shop-grid {
                 grid-template-columns: 1fr;
             }
-            .lightbox-nav { display: none; }
+        .lightbox-nav {
+        display: flex; /* Проявляем их обратно */
+        align-items: center;
+        justify-content: center;
+        width: 60px; /* Увеличиваем область нажатия */
+        height: 60px;
+        background: rgba(255, 255, 255, 0.05); /* Едва заметный круглый фон */
+        border-radius: 50%;
+        font-size: 24px;
+        top: 50%;
+    }
+
+    .prev { left: 10px; }
+    .next { right: 10px; }
+
+    .lightbox-content {
+        max-width: 95%; /* Даем чуть больше места картинке */
+    }
             .top-nav {
         padding: 15px 20px;
     }
