@@ -236,5 +236,30 @@
     <span class="close-lightbox">&times;</span>
     <img class="lightbox-content" id="lightbox-img">
 </div>
+    <script>
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeBtn = document.querySelector('.close-lightbox');
+
+    // Находим все картинки в карточках товаров
+    document.querySelectorAll('.product-image img').forEach(image => {
+        image.onclick = () => {
+            lightbox.style.display = 'flex'; // Показываем слой
+            lightboxImg.src = image.src; // Копируем путь к картинке
+        }
+    });
+
+    // Закрытие при клике на крестик
+    closeBtn.onclick = () => {
+        lightbox.style.display = 'none';
+    }
+
+    // Закрытие при клике на пустую область вокруг картинки
+    lightbox.onclick = (e) => {
+        if (e.target !== lightboxImg) {
+            lightbox.style.display = 'none';
+        }
+    }
+</script>
 </body>
 </html>
