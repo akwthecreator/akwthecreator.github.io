@@ -113,6 +113,46 @@
             opacity: 0.5;
         }
 
+        /* Стили для лайтбокса */
+.lightbox {
+    display: none; /* Скрыт по умолчанию */
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95); /* Почти черный фон */
+    justify-content: center;
+    align-items: center;
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 80%;
+    border: 1px solid #333; /* В стиле твоего дизайна */
+}
+
+/* Кнопка закрытия (крестик) */
+.close-lightbox {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: 200;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.close-lightbox:hover {
+    opacity: 0.5;
+}
+
+/* Курсор-лупа для картинок в сетке */
+.product-image img {
+    cursor: zoom-in;
+}
         /* Адаптация для мобилок */
         @media (max-width: 600px) {
             .shop-grid {
@@ -192,6 +232,9 @@
             </div>
         </div>
         </div>
-
+<div id="lightbox" class="lightbox">
+    <span class="close-lightbox">&times;</span>
+    <img class="lightbox-content" id="lightbox-img">
+</div>
 </body>
 </html>
