@@ -241,44 +241,65 @@
         @media (max-width: 600px) {
             .shop-grid {
                 grid-template-columns: 1fr;
-            }
-        .lightbox-nav {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        /* Уменьшаем визуальный размер круга */
-        width: 35px; 
-        height: 35px;
-        /* Делаем фон почти прозрачным и обводку очень тонкой */
-        background: rgba(255, 255, 255, 0.03); 
-        border: 1px solid rgba(255, 255, 255, 0.1); 
-        border-radius: 50%;
-        
-        /* Уменьшаем размер самой стрелки внутри */
-        font-size: 16px; 
-        
-        /* Смещаем ближе к краям экрана */
-        top: 50%;
-    }
-
-    .prev { left: 15px; }
-    .next { right: 15px; }
-
-    /* Чтобы палец точно попадал, увеличим невидимую зону клика */
-    .lightbox-nav::before {
-        content: '';
-        position: absolute;
-        width: 60px;
-        height: 60px;
-        /* Эта зона невидима, но она реагирует на касание */
-    }
-
-    .lightbox-content {
-        max-width: 95%; /* Даем чуть больше места картинке */
-    }
-            .top-nav {
+                /* Навигация вверху страницы (BACK) */
+    .top-nav {
         padding: 15px 20px;
     }
+
+    /* Стрелки в лайтбоксе */
+    .lightbox-nav {
+        display: flex !important; /* Принудительно показываем */
+        align-items: center;
+        justify-content: center;
+        width: 40px; 
+        height: 40px;
+        background: rgba(255, 255, 255, 0.05); 
+        border: 1px solid rgba(255, 255, 255, 0.1); 
+        border-radius: 50%;
+        font-size: 18px; 
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1010; /* Поднимаем выше всех */
+        -webkit-tap-highlight-color: transparent; /* Убираем синий квадрат при нажатии на iPhone */
+    }
+
+    .prev { 
+        left: 15px; 
+    }
+    
+    .next { 
+        right: 15px; 
+    }
+
+    /* Увеличиваем зону клика для пальца, не меняя визуал */
+    .lightbox-nav::after {
+        content: '';
+        position: absolute;
+        width: 80px;
+        height: 80px;
+    }
+
+    /* Картинка в зуме чуть меньше, чтобы не лезла под стрелки */
+    .lightbox-content {
+        max-width: 85%; 
+        max-height: 70%;
+    }
+
+    /* Тексты в сетке */
+    .nick-animation {
+        width: 100%;
+        font-size: 1.4rem;
+        letter-spacing: 4px;
+        text-align: center;
+    }
+
+    .welcome-text {
+        width: 100%;
+        font-size: 1.8rem;
+        letter-spacing: 6px;
+        text-align: center;
+    }
+            }
         }
     </style>
 </head>
