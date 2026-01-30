@@ -187,6 +187,45 @@
 .next { right: 20px; }
 
 .lightbox-nav:hover { opacity: 0.5; }
+
+        .top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background: rgba(0, 0, 0, 0.8); /* Полупрозрачный фон, чтобы текст не сливался с фото */
+    backdrop-filter: blur(10px); /* Эффект размытия стекла */
+    z-index: 500;
+    box-sizing: border-box;
+}
+
+.back-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    transition: opacity 0.3s;
+}
+
+.page-title {
+    font-size: 0.8rem;
+    letter-spacing: 5px;
+    font-weight: 200;
+    color: #fff;
+}
+
+.back-link:hover {
+    opacity: 0.5;
+}
+
+/* Добавим отступ сверху для сетки товаров, чтобы навигация их не закрывала */
+.shop-grid {
+    margin-top: 100px !important;
+}
         
         /* Адаптация для мобилок */
         @media (max-width: 600px) {
@@ -194,11 +233,19 @@
                 grid-template-columns: 1fr;
             }
             .lightbox-nav { display: none; }
+            .top-nav {
+        padding: 15px 20px;
+    }
         }
     </style>
 </head>
 <body>
-
+    
+    <nav class="top-nav">
+    <a href="index.html" class="back-link">← UIGE</a>
+    <div class="page-title">DUKEN</div>
+    <div style="width: 50px;"></div> </nav>
+    
     <div class="shop-grid">
         <div class="product-card">
             <div class="product-image">
