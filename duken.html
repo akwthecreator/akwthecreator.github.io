@@ -393,6 +393,16 @@ document.getElementById('next-btn').onclick = (e) => {
 };
 
 document.getElementById('prev-btn').onclick = (e) => {
+    e.stopPropagation(); // Чтобы лайтбокс не закрылся
+    // Если нажали на правую половину картинки — вперед, на левую — назад
+    const rect = lightboxImg.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    if (x > rect.width / 2) {
+        currentIndex = (currentIndex + 1) % currentImages.length;
+    } else {
+        currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+    }
+    updateLightbox();
     e.stopPropagation();
     currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
     updateLightbox();
