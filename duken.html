@@ -226,6 +226,16 @@
 .shop-grid {
     margin-top: 100px !important;
 }
+        .site-footer {
+    width: 100%;
+    text-align: center;
+    padding: 60px 0 30px 0; /* Больше отступа сверху, чтобы отделить от товаров */
+    font-size: 0.5rem;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.3); /* Делаем чуть тусклее, чтобы не отвлекать от шопинга */
+    text-transform: uppercase;
+    font-weight: 200;
+}
         
         /* Адаптация для мобилок */
         @media (max-width: 600px) {
@@ -375,5 +385,10 @@ document.getElementById('prev-btn').onclick = (e) => {
 document.querySelector('.close-lightbox').onclick = () => lightbox.style.display = 'none';
 lightbox.onclick = (e) => { if (e.target === lightbox) lightbox.style.display = 'none'; };
 </script>
+    
+    <footer class="site-footer">
+    © 2026 AKWTHECREATOR. All rights reserved.
+</footer>
+    
 </body>
 </html>
