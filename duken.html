@@ -168,13 +168,32 @@
     color: #888; /* Цвет текста станет серым при наведении */
     border-bottom-color: #888; /* Линия тоже посветлеет */
     letter-spacing: 2px; /* Легкое расширение букв для эффекта "кнопки" */
+}    
+
+        .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 30px;
+    cursor: pointer;
+    padding: 20px;
+    user-select: none;
+    transition: 0.3s;
+    z-index: 1001;
 }
+
+.prev { left: 20px; }
+.next { right: 20px; }
+
+.lightbox-nav:hover { opacity: 0.5; }
         
         /* Адаптация для мобилок */
         @media (max-width: 600px) {
             .shop-grid {
                 grid-template-columns: 1fr;
             }
+            .lightbox-nav { display: none; }
         }
     </style>
 </head>
@@ -234,7 +253,10 @@
 
         <div class="product-card">
             <div class="product-image">
-                <img src="ArqarBB.webp" alt="B1sen x Akw Combi">
+                <img src="ArqarBB.webp" 
+                     data-front="ArqarBf.webp" 
+                     data-back="ArqarBB.webp" 
+                     alt="Akw Arqar">
             </div>
             <div class="product-info">
                 <div class="product-title">Akw Arqar</div>
@@ -251,32 +273,51 @@
         </div>
 <div id="lightbox" class="lightbox">
     <span class="close-lightbox">&times;</span>
+    
+    <div class="lightbox-nav prev" id="prev-btn">&#10229;</div>
     <img class="lightbox-content" id="lightbox-img">
+    <div class="lightbox-nav next" id="next-btn">&#10230;</div>
+
+    <div id="view-label" style="position: absolute; bottom: 10%; font-size: 0.6rem; letter-spacing: 3px; color: #555;">FRONT VIEW</div>
 </div>
     <script>
     const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    const closeBtn = document.querySelector('.close-lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const label = document.getElementById('view-label');
+let currentImages = []; // Сюда будем сохранять [front, back]
+let currentIndex = 0;
 
-    // Находим все картинки в карточках товаров
-    document.querySelectorAll('.product-image img').forEach(image => {
-        image.onclick = () => {
-            lightbox.style.display = 'flex'; // Показываем слой
-            lightboxImg.src = image.src; // Копируем путь к картинке
-        }
-    });
-
-    // Закрытие при клике на крестик
-    closeBtn.onclick = () => {
-        lightbox.style.display = 'none';
+document.querySelectorAll('.product-image img').forEach(img => {
+    img.onclick = () => {
+        // Берем пути из атрибутов, которые мы прописали
+        currentImages = [img.getAttribute('data-front'), img.getAttribute('data-back')];
+        currentIndex = 0;
+        updateLightbox();
+        lightbox.style.display = 'flex';
     }
+});
 
-    // Закрытие при клике на пустую область вокруг картинки
-    lightbox.onclick = (e) => {
-        if (e.target !== lightboxImg) {
-            lightbox.style.display = 'none';
-        }
-    }
+function updateLightbox() {
+    lightboxImg.src = currentImages[currentIndex];
+    label.innerText = currentIndex === 0 ? "FRONT VIEW" : "BACK VIEW";
+}
+
+// Переключение
+document.getElementById('next-btn').onclick = (e) => {
+    e.stopPropagation(); // Чтобы окно не закрылось при клике на стрелку
+    currentIndex = (currentIndex + 1) % currentImages.length;
+    updateLightbox();
+};
+
+document.getElementById('prev-btn').onclick = (e) => {
+    e.stopPropagation();
+    currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+    updateLightbox();
+};
+
+// Закрытие
+document.querySelector('.close-lightbox').onclick = () => lightbox.style.display = 'none';
+lightbox.onclick = (e) => { if (e.target === lightbox) lightbox.style.display = 'none'; };
 </script>
 </body>
 </html>
