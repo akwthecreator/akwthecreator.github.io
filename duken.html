@@ -243,19 +243,35 @@
                 grid-template-columns: 1fr;
             }
         .lightbox-nav {
-        display: flex; /* Проявляем их обратно */
+        display: flex;
         align-items: center;
         justify-content: center;
-        width: 60px; /* Увеличиваем область нажатия */
-        height: 60px;
-        background: rgba(255, 255, 255, 0.05); /* Едва заметный круглый фон */
+        /* Уменьшаем визуальный размер круга */
+        width: 35px; 
+        height: 35px;
+        /* Делаем фон почти прозрачным и обводку очень тонкой */
+        background: rgba(255, 255, 255, 0.03); 
+        border: 1px solid rgba(255, 255, 255, 0.1); 
         border-radius: 50%;
-        font-size: 24px;
+        
+        /* Уменьшаем размер самой стрелки внутри */
+        font-size: 16px; 
+        
+        /* Смещаем ближе к краям экрана */
         top: 50%;
     }
 
-    .prev { left: 10px; }
-    .next { right: 10px; }
+    .prev { left: 15px; }
+    .next { right: 15px; }
+
+    /* Чтобы палец точно попадал, увеличим невидимую зону клика */
+    .lightbox-nav::before {
+        content: '';
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        /* Эта зона невидима, но она реагирует на касание */
+    }
 
     .lightbox-content {
         max-width: 95%; /* Даем чуть больше места картинке */
