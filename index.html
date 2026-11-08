@@ -217,6 +217,29 @@
 
         .nav-item:hover { opacity: 0.6; }
 
+        /* ── Титры под видео (текст в lyrics.js) ── */
+        .lyrics {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: calc(64px + env(safe-area-inset-bottom));
+            padding: 0 24px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 300;
+            letter-spacing: 0.18em;
+            line-height: 1.7;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.88);
+            opacity: 0;
+            transform: translateY(6px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            pointer-events: none;
+        }
+
+        .lyrics span { display: inline-block; max-width: 760px; }
+        .lyrics.show { opacity: 1; transform: none; }
+
         .site-footer {
             position: absolute;
             bottom: calc(20px + env(safe-area-inset-bottom));
@@ -255,6 +278,14 @@
                 font-size: 0.6rem;
                 letter-spacing: 3px;
             }
+
+            .nav-links { gap: 28px; }
+
+            .lyrics {
+                bottom: calc(56px + env(safe-area-inset-bottom));
+                font-size: 12px;
+                letter-spacing: 0.12em;
+            }
         }
     </style>
 </head>
@@ -276,7 +307,7 @@
 
     <div class="main-content">
         <div class="video-background">
-            <video autoplay muted loop playsinline preload="auto" poster="HeyMama-poster.jpg">
+            <video id="bg-video" autoplay muted loop playsinline preload="auto" poster="HeyMama-poster.jpg">
                 <source src="HeyMama.mp4" type="video/mp4">
             </video>
         </div>
@@ -289,15 +320,68 @@
         <div class="nav-links">
             <a href="duken.html" class="nav-item">DUKEN</a>
             <a href="archive.html" class="nav-item">ARCHIVE</a>
+            <a href="credits.html" class="nav-item">CREDITS</a>
         </div>
+
+        <div class="lyrics" id="lyrics"></div>
 
         <footer class="site-footer">
             © 2026 AKWTHECREATOR. All rights reserved.
         </footer>
     </div>
 
+    <script src="lyrics.js"></script>
     <script>
         try { sessionStorage.setItem('akw_intro_seen', '1'); } catch (e) {}
+
+        // ── Титры под видео: строка из lyrics.js появляется на своей секунде ──
+        (function () {
+            if (typeof LYRICS === 'undefined' || !Array.isArray(LYRICS)) return;
+            const lines = LYRICS
+                .filter(l => l && typeof l.time === 'number')
+                .sort((a, b) => a.time - b.time);
+            if (!lines.length) return;
+
+            const video = document.getElementById('bg-video');
+            const box = document.getElementById('lyrics');
+            let current = -2;
+            let swapTimer = null;
+
+            function indexAt(t) {
+                let i = -1;
+                for (let k = 0; k < lines.length; k++) {
+                    if (lines[k].time <= t) i = k; else break;
+                }
+                if (i >= 0 && typeof lines[i].end === 'number' && t >= lines[i].end) return -1;
+                return i;
+            }
+
+            function render(i) {
+                if (i === current) return;
+                current = i;
+                clearTimeout(swapTimer);
+                const text = i >= 0 ? String(lines[i].text || '') : '';
+                const hadText = box.classList.contains('show');
+                box.classList.remove('show');
+                swapTimer = setTimeout(() => {
+                    box.innerHTML = '';
+                    if (!text) return;
+                    const span = document.createElement('span');
+                    span.textContent = text;
+                    box.appendChild(span);
+                    box.classList.add('show');
+                }, hadText ? 300 : 0);
+            }
+
+            function tick() {
+                render(indexAt(video.currentTime));
+                if (!video.paused) requestAnimationFrame(tick);
+            }
+
+            video.addEventListener('play', () => requestAnimationFrame(tick));
+            video.addEventListener('seeked', tick);
+            if (!video.paused) requestAnimationFrame(tick);
+        })();
 
         // Нажатие на интро — сразу на главный экран
         document.getElementById('intro').addEventListener('click', function () {
