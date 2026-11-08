@@ -1,86 +1,118 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="kk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>AKW THE CREATOR</title>
+    <meta name="description" content="AKW THE CREATOR — DUKEN, ARCHIVE">
+    <meta name="theme-color" content="#000000">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <!-- Превью ссылки в Instagram / Telegram / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AKW THE CREATOR">
+    <meta property="og:title" content="AKW THE CREATOR">
+    <meta property="og:description" content="DUKEN · ARCHIVE">
+    <meta property="og:url" content="https://akwthecreator.com/">
+    <meta property="og:image" content="https://akwthecreator.com/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=Hanken+Grotesk:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+
+    <script>
+        // Интро показываем один раз за визит (и не показываем тем, кто отключил анимации)
+        try {
+            if (sessionStorage.getItem('akw_intro_seen') ||
+                window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.documentElement.classList.add('no-intro');
+            }
+        } catch (e) {}
+    </script>
+
     <style>
-        /* Общие стили */
+        :root {
+            --sans: 'Hanken Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --mono: 'Courier Prime', 'Courier New', monospace;
+        }
+
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            background-color: #000; /* Тот самый черный фон */
+            background-color: #000;
             color: #fff;
-            font-family: 'Inter', sans-serif; /* Популярный минималистичный шрифт */
+            font-family: var(--sans);
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Анимация появления */
+        /* Анимации */
         @keyframes fadeInOut {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
+            0%   { opacity: 0; }
+            50%  { opacity: 1; }
             100% { opacity: 0; }
         }
 
         @keyframes fadeInFinal {
-            0% { opacity: 0; }
+            0%   { opacity: 0; }
             100% { opacity: 1; }
         }
 
-        /* Секция Интро */
-        .intro-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: #000;
-    z-index: 100;
-    /* Добавляем задержку в 9 секунд, чтобы интро ушло ровно перед появлением KOS KELDIN */
-    animation: hideIntro 0.1s 9s forwards; 
-}
-        .site-footer {
-    position: absolute;
-    bottom: 20px; /* Отступ от самого низа */
-    width: 100%;
-    text-align: center;
-    font-size: 0.5rem; /* Очень маленький шрифт */
-    letter-spacing: 2px;
-    color: rgba(255, 255, 255, 0.4); /* Полупрозрачный белый (серый) */
-    text-transform: uppercase;
-    font-weight: 200;
-}
-
         @keyframes hideIntro {
-    0% { z-index: 100; }
-    100% { z-index: -1; visibility: hidden; }
-}
+            0%   { z-index: 100; }
+            100% { z-index: -1; visibility: hidden; }
+        }
+
+        /* ── Интро ── */
+        .intro-screen {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+            z-index: 100;
+            cursor: pointer;
+            /* Интро уходит ровно перед появлением KOW KELDIN */
+            animation: hideIntro 0.1s 9s forwards;
+        }
+
+        /* Ник и логотип в одной точке — логотип ровно по центру */
+        .intro-center {
+            display: grid;
+            place-items: center;
+            width: 100%;
+        }
+
+        .intro-center > * { grid-area: 1 / 1; }
 
         .nick-animation {
-    width: 100%; /* Занимаем всю ширину */
-    text-align: center; /* Центрируем текст внутри */
-    font-size: 2.5rem;
-    letter-spacing: 10px;
-    font-weight: 200;
-    text-transform: uppercase;
-    animation: fadeInOut 4s forwards;
-}
+            width: 100%;
+            text-align: center;
+            font-size: 2.5rem;
+            letter-spacing: 10px;
+            font-weight: 200;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeInOut 4s forwards;
+        }
 
         .main-logo {
             width: 150px;
             opacity: 0;
-            animation: fadeInOut 4s 4.5s forwards; /* Появится после ника */
+            animation: fadeInOut 4s 4.5s forwards;
         }
 
         .film-logos {
             position: absolute;
-            bottom: 50px;
+            bottom: calc(50px + env(safe-area-inset-bottom));
             display: flex;
             gap: 40px;
             opacity: 0;
@@ -89,159 +121,189 @@
 
         .film-logos img {
             height: 20px;
-            filter: brightness(0.7); /* Делаем чуть тусклее, как в титрах */
+            filter: brightness(0.7);
         }
 
-        /* Контейнер для видео */
-.video-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -2; /* Уходит на самый задний план */
-    overflow: hidden;
-}
+        .skip-intro {
+            position: absolute;
+            top: calc(20px + env(safe-area-inset-top));
+            right: 24px;
+            padding: 8px;
+            background: none;
+            border: 0;
+            color: #555;
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
 
-.video-background video {
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    object-fit: cover; /* Чтобы видео заполняло весь экран без черных полос */
-}
-        .nav-links {
-    margin-top: 30px;
-    display: flex;
-    gap: 40px;
-    z-index: 10;
-}
+        .skip-intro:hover { color: #fff; }
 
-.nav-item {
-    color: #fff;
-    text-decoration: none;
-    font-size: 0.7rem;
-    letter-spacing: 3px;
-    border-bottom: 1px solid #fff; /* Та самая линия под словом */
-    padding-bottom: 5px;
-    transition: opacity 0.3s;
-}
+        /* ── Главный экран ── */
+        .main-content {
+            position: relative;
+            height: 100vh;
+            height: 100svh; /* на iPhone без учёта панели Safari */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInFinal 2s 9s forwards;
+            overflow: hidden;
+        }
 
-.nav-item:hover {
-    opacity: 0.6; /* Эффект при наведении */
-}
+        /* Повторный заход или пропуск интро */
+        .no-intro .intro-screen { display: none; }
+        .no-intro .main-content { animation: fadeInFinal 0.8s forwards; }
 
-/* Слой затемнения */
-.video-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7); /* 0.7 — это степень затемнения (от 0 до 1) */
-    z-index: -1; /* Между видео и текстом */
-}
+        .video-background {
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            overflow: hidden;
+        }
 
-/* Убедись, что main-content теперь имеет relative позиционирование */
-.main-content {
-    position: relative;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    opacity: 0;
-    animation: fadeInFinal 2s 9s forwards;
-    overflow: hidden;
-}
+        .video-background video {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
 
         .welcome-text {
             font-size: 3rem;
             letter-spacing: 15px;
             text-transform: uppercase;
             margin-bottom: 10px;
-            color: #fff; /* Менее заметный цвет */
+            font-weight: 400;
+            color: #fff;
         }
 
         .sub-text {
             font-size: 0.8rem;
             letter-spacing: 5px;
             text-transform: uppercase;
-            color: #555; /* Менее заметный цвет */
+            color: #555;
         }
-        /* Настройки для телефонов */
-@media (max-width: 768px) {
-    .nick-animation {
-        width: 100%;
-        font-size: 1.4rem; /* Еще чуть меньше для верности */
-        letter-spacing: 4px;
-        text-align: center;
-    }
 
-    .main-logo {
-        width: 100px; /* Уменьшаем логотип */
-    }
+        .nav-links {
+            margin-top: 30px;
+            display: flex;
+            gap: 40px;
+            z-index: 10;
+        }
 
-    .film-logos {
-        bottom: 30px; /* Поднимаем нижние лого чуть выше */
-        gap: 20px;    /* Сближаем их */
-    }
+        .nav-item {
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+            border-bottom: 1px solid #fff;
+            padding-bottom: 5px;
+            transition: opacity 0.3s;
+        }
 
-    .film-logos img {
-        height: 15px; /* Делаем нижние лого еще меньше */
-    }
+        .nav-item:hover { opacity: 0.6; }
 
-    .welcome-text {
-        width: 100%;
-        font-size: 1.8rem;
-        letter-spacing: 6px;
-        text-align: center;
-    }
+        .site-footer {
+            position: absolute;
+            bottom: calc(20px + env(safe-area-inset-bottom));
+            width: 100%;
+            text-align: center;
+            font-size: 0.5rem;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            font-weight: 300;
+        }
 
-    .sub-text {
-        font-size: 0.6rem;
-        letter-spacing: 3px;
-    }
-}
+        /* ── Телефоны ── */
+        @media (max-width: 768px) {
+            .nick-animation {
+                font-size: 1.4rem;
+                letter-spacing: 4px;
+            }
+
+            .main-logo { width: 100px; }
+
+            .film-logos {
+                bottom: calc(30px + env(safe-area-inset-bottom));
+                gap: 20px;
+            }
+
+            .film-logos img { height: 15px; }
+
+            .welcome-text {
+                width: 100%;
+                font-size: 1.8rem;
+                letter-spacing: 6px;
+            }
+
+            .sub-text {
+                font-size: 0.6rem;
+                letter-spacing: 3px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="intro-screen">
-        <div class="nick-animation">AKW THE CREATOR</div>
-        
-        <img src="AkwLogo4Site.png" alt="Logo" class="main-logo">
+    <div class="intro-screen" id="intro">
+        <button class="skip-intro" type="button">SKIP</button>
+
+        <div class="intro-center">
+            <div class="nick-animation">AKW THE CREATOR</div>
+            <img src="AkwLogo4Site.png" alt="AKW" class="main-logo">
+        </div>
 
         <div class="film-logos">
-            <img src="b1senLogo4Site.png" alt="Sony">
-            <img src="VernyLogo4Site.png" alt="Brand">
+            <img src="b1senLogo4Site.png" alt="B1sen">
+            <img src="VernyLogo4Site.png" alt="VernbI">
         </div>
     </div>
 
     <div class="main-content">
-    <div class="video-background">
-        <video autoplay muted loop playsinline id="bg-video">
-            <source src="HeyMama.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </div>
-    
-    <div class="video-overlay"></div>
+        <div class="video-background">
+            <video autoplay muted loop playsinline preload="auto" poster="HeyMama-poster.jpg">
+                <source src="HeyMama.mp4" type="video/mp4">
+            </video>
+        </div>
 
-    <div class="welcome-text">KOW KELDIN</div>
-    <div class="sub-text">Welcome</div>
+        <div class="video-overlay"></div>
+
+        <div class="welcome-text">KOW KELDIN</div>
+        <div class="sub-text">Welcome</div>
+
         <div class="nav-links">
-    <a href="duken.html" class="nav-item">DUKEN</a>
-    <a href="archive.html" class="nav-item">ARCHIVE</a>
-</div>
+            <a href="duken.html" class="nav-item">DUKEN</a>
+            <a href="archive.html" class="nav-item">ARCHIVE</a>
+        </div>
+
         <footer class="site-footer">
-    © 2026 AKWTHECREATOR. All rights reserved.
-</footer>
-</div>
+            © 2026 AKWTHECREATOR. All rights reserved.
+        </footer>
+    </div>
+
+    <script>
+        try { sessionStorage.setItem('akw_intro_seen', '1'); } catch (e) {}
+
+        // Нажатие на интро — сразу на главный экран
+        document.getElementById('intro').addEventListener('click', function () {
+            document.documentElement.classList.add('no-intro');
+        });
+    </script>
+
 </body>
 </html>
