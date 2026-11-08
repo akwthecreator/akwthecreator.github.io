@@ -24,5 +24,7 @@
 */
 
 const LYRICS = [
-    { time: 10,   text: 'первая строка' },
+    { time: 1,   text: 'Aaaaaaow, I wanna scream so loud for you, cuz Im so proud of you' },
+    { time: 3,   text: 'This little light of mine and Im finna let it shine
+'}
 ];
