@@ -63,7 +63,8 @@ const ARCHIVE = [
       { name: 'soz1poster', year: '', photo: 'soz1poster.jpg', note: '' },
       { name: 'TalimHS', year: '', photo: 'talimhs.jpg', note: '' },
       { name: 'talimRS', year: '', photo: 'talimrs.jpg', note: '' },
-      { name: 'UlkmanapoBLCKYard', year: '', photo: 'ulkmanapoblckyard.jpg', note: '' }
+      { name: 'UlkmanapoBLCKYard', year: '', photo: 'ulkmanapoblckyard.jpg', note: '' },
+      { name: 'KZMadeniettiOrtaCompressEXF', year: '2026', photo: 'kzmadeniettiortacompressexf.jpg', note: 'Екі мағыналы постер' },
     ],
   },
   {
