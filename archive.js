@@ -52,11 +52,18 @@ const ARCHIVE = [
     title: 'POSTERS',
     about: 'posters & covers',
     works: [
-      { name: 'Work name', year: '', photo: '', note: '' },
-      { name: 'Work name', year: '', photo: '', note: '' },
-      { name: 'Work name', year: '', photo: '', note: '' },
-      { name: 'Work name', year: '', photo: '', note: '' },
-      { name: 'Work name', year: '', photo: '', note: '' },
+            { name: 'AOwallpaper', year: '2023', photo: 'aowallpaper.jpg', note: 'Концепт постер альбома AstroWorld от Travis Scot, қазақша баламасы' },
+      { name: 'Audarmashi', year: '2024', photo: 'audarmashi.jpg', note: 'Переводчик фильмінің қазақша локализацияланғаң постері' },
+      { name: 'bisenKazgen', year: '2025', photo: 'bisenkazgen.jpg', note: 'Бисен Сырахан брендіне арнларған концепт постер' },
+      { name: 'JLN', year: '2025', photo: 'jln.jpg', note: 'FlameSnake' },
+      { name: 'KanatKalash', year: '2026', photo: 'kanatkalash.jpg', note: '' },
+      { name: 'posterbalyoic', year: '', photo: 'posterbalyoic.jpg', note: '' },
+      { name: 'PosterNikulin', year: '', photo: 'posternikulin.jpg', note: '' },
+      { name: 'Shiza667 svm2', year: '', photo: 'shiza667-svm2.jpg', note: '' },
+      { name: 'soz1poster', year: '', photo: 'soz1poster.jpg', note: '' },
+      { name: 'TalimHS', year: '', photo: 'talimhs.jpg', note: '' },
+      { name: 'talimRS', year: '', photo: 'talimrs.jpg', note: '' },
+      { name: 'UlkmanapoBLCKYard', year: '', photo: 'ulkmanapoblckyard.jpg', note: '' }
     ],
   },
   {
