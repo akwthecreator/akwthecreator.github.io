@@ -30,11 +30,11 @@ const ARCHIVE = [
     title: 'MERCH',
     about: 'QOIMA · artists · DUKEN',
     works: [
-      { name: 'Work name', year: '', photo: '', note: '' },
-      { name: 'Work name', year: '', photo: '', note: '' },
-      { name: 'Work name', year: '', photo: '', note: '' },
-      { name: 'Work name', year: '', photo: '', note: '' },
-      { name: 'Work name', year: '', photo: '', note: '' },
+            { name: 'Bully2', year: '2026', photo: 'bully2.jpg', note: 'Не официальный концептульный мерч для тура Kanye West, Қазақ аудиторияға арналған' },
+      { name: 'PenguinADL', year: '2025', photo: 'penguinadl.jpg', note: 'Концепт мерч про пингвина который отделился от толпы' },
+      { name: 'Soz1Blue B', year: '2026', photo: 'soz1blue-b.jpg', note: 'Өмірде ең басты затты жоғалтып алмау үшін ескертпе мерч' },
+      { name: 'Soz1Green F', year: '2026', photo: 'soz1green-f.jpg', note: 'Өмірде ең басты затты жоғалтып алмау үшін ескертпе мерч Front' },
+      { name: 'TentekAXK th', year: '2025', photo: 'tentekaxk-th.jpg', note: 'Не официальный мерч хоккейного клуба Ақтөбе = TENTEK' }
     ],
   },
   {
