@@ -12,6 +12,7 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="AKW THE CREATOR">
     <meta property="og:title" content="ARCHIVE | AKW">
+    <meta property="og:description" content="ARCHIVE — AKW THE CREATOR">
     <meta property="og:url" content="https://akwthecreator.com/archive.html">
     <meta property="og:image" content="https://akwthecreator.com/og-image.jpg">
     <meta name="twitter:card" content="summary_large_image">
@@ -21,39 +22,48 @@
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=Hanken+Grotesk:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
+        /* Переменные — те же, что в duken.html */
         :root {
+            --bg: #000;          /* фон = фон фотографий, поэтому вещи «висят» */
             --fg: #ededed;
             --muted: #8c8c8c;
+            --dim: #555;
             --line: #222;
             --sans: 'Hanken Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             --mono: 'Courier Prime', 'Courier New', monospace;
             --pad: clamp(16px, 3vw, 40px);
+            --item: clamp(84px, 10.5vw, 170px);   /* размер вещи в кольце */
         }
 
         * { box-sizing: border-box; }
 
-        html, body { height: 100%; }
+        html { -webkit-text-size-adjust: 100%; }
 
         body {
             margin: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            min-height: 100svh;
-            background: #000;
+            background: var(--bg);
             color: var(--fg);
             font-family: var(--sans);
             -webkit-font-smoothing: antialiased;
         }
 
         a { color: inherit; }
+        button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        :focus-visible { outline: 1px solid var(--fg); outline-offset: 2px; }
 
+        /* ── Верхняя навигация (как на DUKEN) ── */
         .top-nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 500;
             display: grid;
             grid-template-columns: 1fr auto 1fr;
             align-items: center;
             padding: 16px var(--pad);
             padding-top: calc(16px + env(safe-area-inset-top));
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--line);
             font-size: 11px;
             letter-spacing: 0.18em;
@@ -65,44 +75,347 @@
         .top-nav .brand { font-weight: 600; letter-spacing: 0.22em; }
         .top-nav .right { justify-self: end; }
 
-        main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        /* ── Тур: кольцо → спираль ── */
+        .tour { height: 340vh; position: relative; }
+
+        .stage {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            height: 100svh;
+            overflow: hidden;
+            background: var(--bg);
+        }
+
+        /* Звёзды: простые точки, без свечения */
+        .stars {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            will-change: opacity;
+            background-image:
+                radial-gradient(1px 1px at 12% 18%, #777 60%, transparent 61%),
+                radial-gradient(1px 1px at 68% 34%, #555 60%, transparent 61%),
+                radial-gradient(1px 1px at 41% 72%, #888 60%, transparent 61%),
+                radial-gradient(1px 1px at 86% 81%, #555 60%, transparent 61%),
+                radial-gradient(1px 1px at 27% 49%, #666 60%, transparent 61%);
+            background-size: 340px 340px, 260px 260px, 420px 420px, 300px 300px, 380px 380px;
+        }
+
+        /* Орбита — тонкая линия, по которой стоят вещи */
+        .orbit {
+            position: absolute;
+            left: 50%; top: 50%;
+            border: 1px solid var(--line);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            will-change: opacity;
+        }
+
+        .galaxy { position: absolute; inset: 0; z-index: 1; will-change: transform, opacity; }
+
+        .item {
+            position: absolute;
+            left: 50%; top: 50%;
+            width: var(--item);
+            aspect-ratio: 1 / 1;
+            background: #000;
+            will-change: transform;
+        }
+
+        /* «Уголки» — как у карточек DUKEN */
+        .item::before, .item::after,
+        .cell::before, .cell::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 1px solid var(--fg);
+            opacity: 0;
+            transition: opacity 0.25s;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .item::before, .cell::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+        .item::after,  .cell::after  { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+        .item:focus-visible::before, .item:focus-visible::after,
+        .cell:focus-within::before, .cell:focus-within::after { opacity: 1; }
+
+        @media (hover: hover) {
+            .item:hover::before, .item:hover::after,
+            .cell:hover::before, .cell:hover::after { opacity: 1; }
+        }
+
+        .hero {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            display: grid;
+            place-content: center;
+            justify-items: center;
             gap: 18px;
-            padding: 40px var(--pad);
+            padding: 0 var(--pad);
             text-align: center;
+            pointer-events: none;
+            will-change: transform, opacity;
         }
 
-        h1 {
+        .hero h1 {
             margin: 0;
-            font-size: clamp(36px, 9vw, 120px);
+            padding-left: 0.08em;            /* уравновешивает letter-spacing справа */
+            font-size: clamp(40px, 10.5vw, 170px);
             font-weight: 200;
+            line-height: 0.85;
             letter-spacing: 0.08em;
-            line-height: 1;
         }
 
-        .soon {
+        .hero .count { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+
+        .alu {
+            pointer-events: auto;
+            margin-top: 10px;
+            color: var(--fg);
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-bottom: 1px solid currentColor;
+            padding-bottom: 2px;
+            transition: opacity 0.3s ease, letter-spacing 0.3s ease;
+        }
+        .alu:hover { opacity: 0.55; letter-spacing: 0.3em; }
+
+        .core {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            display: grid;
+            place-content: center;
+            justify-items: center;
+            gap: 10px;
+            text-align: center;
+            pointer-events: none;
+            opacity: 0;
+            will-change: opacity;
+        }
+        .core b { font-size: clamp(40px, 7vw, 104px); font-weight: 200; letter-spacing: 0.08em; line-height: 0.85; padding-left: 0.08em; }
+        .core span { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+
+        /* ── Фото и заглушки ── */
+        .tile, .tile img { display: block; width: 100%; height: 100%; }
+        .tile img { object-fit: contain; }
+
+        .ph {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            place-content: center;
+            justify-items: center;
+            gap: 0.35em;
+            border: 1px solid #333;
+            background: #000;
             font-family: var(--mono);
-            font-size: 13px;
             color: var(--muted);
         }
+        .ph b { font-weight: 400; font-size: 1.5em; color: var(--fg); }
+        .ph i { font-style: normal; font-size: 0.72em; color: var(--dim); text-transform: uppercase; }
 
+        /* ── Коллекции ── */
+        .collections { max-width: 1440px; margin: 0 auto; overflow: hidden; }
+
+        .page-head {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 16px;
+            padding: clamp(64px, 10vh, 104px) var(--pad) 22px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .page-head h2 {
+            margin: 0;
+            font-size: clamp(32px, 6.4vw, 88px);
+            font-weight: 200;
+            line-height: 0.85;
+            letter-spacing: 0.08em;
+        }
+
+        .page-head .about { margin-top: 14px; font-family: var(--mono); font-size: 13px; color: var(--muted); }
+
+        .page-head .side { display: flex; align-items: center; gap: 18px; padding-bottom: 0.3em; white-space: nowrap; }
+        .page-head .count { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+        .arrows { display: flex; gap: 4px; }
+        .arrows button { width: 40px; height: 32px; font-size: 22px; font-weight: 200; line-height: 1; transition: opacity 0.25s; }
+        .arrows button:hover { opacity: 0.5; }
+
+        .row {
+            display: flex;
+            overflow-x: auto;
+            border-bottom: 1px solid var(--line);
+            scroll-snap-type: x proximity;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+        .row::-webkit-scrollbar { display: none; }
+
+        .cell {
+            position: relative;
+            flex: 0 0 clamp(200px, 26vw, 360px);
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            padding: 14px 18px 20px;
+            border-right: 1px solid var(--line);
+            scroll-snap-align: start;
+        }
+
+        .cell-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--dim);
+            text-transform: uppercase;
+        }
+
+        .photo {
+            position: relative;
+            display: block;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            margin: 6px 0 16px;
+            background: #000;
+            cursor: zoom-in;
+            overflow: hidden;
+            font-size: clamp(14px, 1.6vw, 20px);
+        }
+
+        .name { margin: 0; font-family: var(--mono); font-size: 15px; font-weight: 400; line-height: 1.3; }
+        .note { margin: 8px 0 0; font-size: 12px; line-height: 1.5; color: var(--muted); }
+
+        .data-msg { padding: 14px var(--pad); font-family: var(--mono); font-size: 12px; color: var(--dim); border-bottom: 1px solid var(--line); }
+
+        /* ── Футер ── */
         .site-footer {
-            padding: 0 var(--pad) calc(28px + env(safe-area-inset-bottom));
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 24px;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 64px var(--pad) calc(28px + env(safe-area-inset-bottom));
             font-size: 10px;
             font-weight: 600;
             letter-spacing: 0.1em;
+            line-height: 1.6;
             text-transform: uppercase;
             color: rgba(255, 255, 255, 0.35);
         }
 
+        .site-footer a { text-decoration: none; transition: color 0.25s; }
+        .site-footer a:hover { color: var(--fg); }
+        .site-footer .right { text-align: right; }
+
+        /* ── Лайтбокс (как на DUKEN) ── */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            background: #000;
+            padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+        }
+
+        .lightbox[hidden] { display: none; }
+
+        .lb-top, .lb-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding: 18px var(--pad);
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .lb-label { color: var(--fg); letter-spacing: 0.2em; margin-left: 12px; text-transform: uppercase; }
+        .lb-close, .lb-nav { font-family: var(--sans); transition: opacity 0.25s; }
+        .lb-close { font-size: 32px; font-weight: 200; line-height: 1; padding: 0 4px; }
+        .lb-close:hover, .lb-nav:hover { opacity: 0.5; }
+
+        .lb-stage {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 0;
+            touch-action: pan-y;
+        }
+
+        .lb-frame { position: relative; display: block; }
+
+        .lb-frame::before, .lb-frame::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 1px solid var(--fg);
+            pointer-events: none;
+        }
+        .lb-frame::before { top: -5px; left: -5px; border-right: 0; border-bottom: 0; }
+        .lb-frame::after  { bottom: -5px; right: -5px; border-left: 0; border-top: 0; }
+
+        .lb-frame img, .lb-frame video {
+            display: block;
+            max-width: min(88vw, 1100px);
+            max-height: calc(100vh - 150px);
+            max-height: calc(100svh - 150px);
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .lb-frame .ph { width: min(70vw, calc(100svh - 190px)); height: min(70vw, calc(100svh - 190px)); font-size: 22px; }
+
+        .lb-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 56px;
+            height: 56px;
+            font-size: 26px;
+            font-weight: 200;
+            z-index: 2;
+        }
+
+        .lb-prev { left: calc(var(--pad) - 16px); }
+        .lb-next { right: calc(var(--pad) - 16px); }
+        .lb-name { color: var(--fg); }
+
+        /* ── Телефоны ── */
+        @media (max-width: 900px) {
+            .cell { flex-basis: clamp(180px, 46vw, 300px); padding: 10px 12px 16px; }
+            .name { font-size: 13px; }
+            .arrows { display: none; }
+        }
+
         @media (max-width: 600px) {
-            .top-nav { font-size: 10px; letter-spacing: 0.12em; }
+            .top-nav { font-size: 10px; letter-spacing: 0.12em; padding-top: calc(14px + env(safe-area-inset-top)); padding-bottom: 14px; }
             .top-nav .brand { letter-spacing: 0.14em; }
+            .lb-frame img, .lb-frame video { max-width: 100vw; }
+            .lb-frame::before, .lb-frame::after { display: none; }
+            .lb-nav { width: 48px; height: 48px; }
+            .lb-prev { left: 4px; }
+            .lb-next { right: 4px; }
+            .site-footer { flex-direction: column; align-items: flex-start; }
+            .site-footer .right { text-align: left; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .tour { height: 100vh; }
         }
     </style>
 </head>
@@ -115,13 +428,313 @@
     </nav>
 
     <main>
-        <h1>ARCHIVE</h1>
-        <div class="soon">coming soon</div>
+        <!-- Тур: вещи стоят кольцом, при прокрутке закручиваются в спираль -->
+        <section class="tour" id="tour" aria-label="Archive tour">
+            <div class="stage">
+                <div class="stars" id="stars" aria-hidden="true"></div>
+                <div class="orbit" id="orbit" aria-hidden="true"></div>
+                <div class="hero" id="hero">
+                    <h1>ARCHIVE</h1>
+                    <div class="count" id="hero-count"></div>
+                    <button class="alu" id="start" type="button">Start tour ↓</button>
+                </div>
+                <div class="core" id="core" aria-hidden="true"><b id="core-num"></b><span>works · keep scrolling</span></div>
+                <div class="galaxy" id="galaxy"></div>
+            </div>
+        </section>
+
+        <!-- Разделы: ряды листаются в стороны -->
+        <div class="collections" id="collections"></div>
     </main>
 
     <footer class="site-footer">
-        © 2026 AKWTHECREATOR. All rights reserved.
+        <div>AKW THE CREATOR<br>ARCHIVE</div>
+        <div class="right">
+            <a href="https://www.instagram.com/akwthecreator/" target="_blank" rel="noopener">Instagram ↗</a><br>
+            © 2026 AKWTHECREATOR. All rights reserved.
+        </div>
     </footer>
+
+    <!-- Лайтбокс -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto" hidden>
+        <div class="lb-top">
+            <span><span id="lb-count">01 / 02</span><span class="lb-label" id="lb-label"></span></span>
+            <button class="lb-close" id="lb-close" type="button" aria-label="Jabu">&times;</button>
+        </div>
+        <div class="lb-stage" id="lb-stage">
+            <button class="lb-nav lb-prev" id="lb-prev" type="button" aria-label="Artqa">&#10229;</button>
+            <span class="lb-frame" id="lb-frame"></span>
+            <button class="lb-nav lb-next" id="lb-next" type="button" aria-label="Alǵa">&#10230;</button>
+        </div>
+        <div class="lb-bottom">
+            <span class="lb-name" id="lb-name"></span>
+            <span id="lb-note"></span>
+        </div>
+    </div>
+
+    <script src="archive.js"></script>
+    <script>
+    (function () {
+        'use strict';
+
+        /* ── Данные из archive.js. Если файла нет или в нём ошибка — показываем заглушки ── */
+        var DATA, dataError = false;
+        try { DATA = ARCHIVE; } catch (e) { dataError = true; }
+        if (!Array.isArray(DATA) || !DATA.length) {
+            dataError = true;
+            DATA = ['SECTION A', 'SECTION B', 'SECTION C'].map(function (t, k) {
+                return { title: t, about: 'demo', works: Array.from({ length: k ? 8 : 10 }, function () { return { name: 'Work name' }; }) };
+            });
+        }
+
+        var ALL = [];
+        DATA.forEach(function (c) {
+            (c.works || []).forEach(function (w, k) { w.col = c.title; w.n = k; w.i = ALL.length; ALL.push(w); });
+        });
+
+        var $ = function (id) { return document.getElementById(id); };
+        var pad2 = function (n) { return String(n).padStart(2, '0'); };
+
+        function placeholder(w) {
+            var s = document.createElement('span');
+            s.className = 'ph';
+            s.innerHTML = '<b>' + pad2(w.i + 1) + '</b><i>photo</i>';
+            return s;
+        }
+
+        function tile(w, lazy) {
+            var el = document.createElement('span');
+            el.className = 'tile';
+            if (w.photo) {
+                var img = new Image();
+                img.alt = w.name || '';
+                img.decoding = 'async';
+                if (lazy) img.loading = 'lazy';
+                img.onerror = function () { el.replaceChildren(placeholder(w)); };   // файла нет — заглушка
+                img.src = w.photo;
+                el.appendChild(img);
+            } else {
+                el.appendChild(placeholder(w));
+            }
+            return el;
+        }
+
+        /* ── Тексты ── */
+        $('hero-count').textContent = '(' + pad2(ALL.length) + ') works · (' + pad2(DATA.length) + ') sections';
+        $('core-num').textContent = pad2(ALL.length);
+
+        /* ── Ряды коллекций ── */
+        var root = $('collections');
+        if (dataError) {
+            var msg = document.createElement('div');
+            msg.className = 'data-msg';
+            msg.textContent = 'archive.js ERROR — demo';
+            root.appendChild(msg);
+        }
+
+        DATA.forEach(function (c) {
+            var works = c.works || [];
+            var head = document.createElement('header');
+            head.className = 'page-head';
+            var left = document.createElement('div');
+            var h = document.createElement('h2'); h.textContent = c.title || '';
+            left.appendChild(h);
+            if (c.about) { var ab = document.createElement('div'); ab.className = 'about'; ab.textContent = c.about; left.appendChild(ab); }
+            var side = document.createElement('div');
+            side.className = 'side';
+            side.innerHTML = '<div class="arrows"><button type="button" aria-label="Artqa">&#10229;</button><button type="button" aria-label="Alǵa">&#10230;</button></div>' +
+                             '<div class="count">(' + pad2(works.length) + ')</div>';
+            head.appendChild(left); head.appendChild(side);
+
+            var row = document.createElement('div');
+            row.className = 'row';
+            works.forEach(function (w) {
+                var cell = document.createElement('article');
+                cell.className = 'cell';
+                var top = document.createElement('div');
+                top.className = 'cell-top';
+                var num = document.createElement('span'); num.textContent = pad2(w.n + 1);
+                var yr = document.createElement('span'); yr.textContent = [w.video ? 'video' : '', w.year].filter(Boolean).join(' · ');
+                top.appendChild(num); top.appendChild(yr);
+                var photo = document.createElement('button');
+                photo.type = 'button'; photo.className = 'photo';
+                photo.setAttribute('aria-label', (w.name || 'Foto') + ' — foto');
+                photo.appendChild(tile(w, true));
+                photo.addEventListener('click', function () { openLb(w.i, photo); });
+                var name = document.createElement('h3'); name.className = 'name'; name.textContent = w.name || '';
+                cell.appendChild(top); cell.appendChild(photo); cell.appendChild(name);
+                if (w.note) { var nt = document.createElement('p'); nt.className = 'note'; nt.textContent = w.note; cell.appendChild(nt); }
+                row.appendChild(cell);
+            });
+
+            var btns = side.querySelectorAll('.arrows button');
+            btns[0].addEventListener('click', function () { row.scrollBy({ left: -row.clientWidth * 0.8, behavior: 'smooth' }); });
+            btns[1].addEventListener('click', function () { row.scrollBy({ left: row.clientWidth * 0.8, behavior: 'smooth' }); });
+
+            root.appendChild(head);
+            root.appendChild(row);
+        });
+
+        /* ── Лайтбокс ── */
+        var lb = $('lightbox'), cur = 0, lastFocus = null;
+
+        function showLb(i) {
+            cur = (i + ALL.length) % ALL.length;
+            var w = ALL[cur], frame = $('lb-frame');
+            if (w.video) {
+                var v = document.createElement('video');
+                v.src = w.video; v.controls = true; v.playsInline = true; v.loop = true;
+                if (w.photo) v.poster = w.photo;
+                frame.replaceChildren(v);
+            } else if (w.photo) {
+                var img = new Image();
+                img.alt = w.name || '';
+                img.onerror = function () { frame.replaceChildren(placeholder(w)); };
+                img.src = w.photo;
+                frame.replaceChildren(img);
+            } else {
+                frame.replaceChildren(placeholder(w));
+            }
+            $('lb-count').textContent = pad2(cur + 1) + ' / ' + pad2(ALL.length);
+            $('lb-label').textContent = w.col || '';
+            $('lb-name').textContent = [w.name, w.year].filter(Boolean).join(' · ');
+            $('lb-note').textContent = w.note || '';
+        }
+
+        function openLb(i, from) {
+            lastFocus = from || document.activeElement;
+            showLb(i);
+            lb.hidden = false;
+            document.body.style.overflow = 'hidden';
+            $('lb-close').focus();
+        }
+
+        function closeLb() {
+            lb.hidden = true;
+            $('lb-frame').replaceChildren();          // останавливает видео
+            document.body.style.overflow = '';
+            if (lastFocus) lastFocus.focus();
+        }
+
+        $('lb-close').addEventListener('click', closeLb);
+        $('lb-prev').addEventListener('click', function () { showLb(cur - 1); });
+        $('lb-next').addEventListener('click', function () { showLb(cur + 1); });
+        $('lb-stage').addEventListener('click', function (e) { if (e.target === this) closeLb(); });
+
+        document.addEventListener('keydown', function (e) {
+            if (lb.hidden) return;
+            if (e.key === 'Escape') closeLb();
+            else if (e.key === 'ArrowLeft') showLb(cur - 1);
+            else if (e.key === 'ArrowRight') showLb(cur + 1);
+            else if (e.key === 'Tab') {                       // фокус остаётся внутри окна
+                var f = lb.querySelectorAll('button'), first = f[0], last = f[f.length - 1];
+                if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+                else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+            }
+        });
+
+        /* Свайп на телефоне */
+        var sx = null;
+        $('lb-stage').addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
+        $('lb-stage').addEventListener('touchend', function (e) {
+            if (sx === null) return;
+            var dx = e.changedTouches[0].clientX - sx; sx = null;
+            if (Math.abs(dx) > 50) showLb(cur + (dx < 0 ? 1 : -1));
+        }, { passive: true });
+
+        /* ── Галактика: кольцо → спираль ── */
+        var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var tour = $('tour'), galaxy = $('galaxy'), hero = $('hero'), core = $('core'), stars = $('stars'), orbit = $('orbit');
+        var TAU = Math.PI * 2;
+        var seed = 7;
+        function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }   // стабильная «случайность»
+        function clamp(v) { return Math.min(1, Math.max(0, v)); }
+        function lerp(a, b, t) { return a + (b - a) * t; }
+        function ease(t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
+
+        var MAX = innerWidth < 700 ? 14 : 28;
+        var N = ALL.length ? Math.min(MAX, Math.max(ALL.length, 12)) : 0;   // мало работ — повторяем по кругу
+        var items = [];
+        for (var i = 0; i < N; i++) {
+            (function (i) {
+                var w = ALL.length > N ? ALL[Math.floor(i * ALL.length / N)] : ALL[i % ALL.length];
+                var el = document.createElement('button');
+                el.type = 'button'; el.className = 'item';
+                el.setAttribute('aria-label', (w.name || 'Foto') + ' — foto');
+                el.appendChild(tile(w, false));
+                el.addEventListener('click', function () { openLb(w.i, el); });
+                galaxy.appendChild(el);
+                var rr = 0.36 + 0.64 * (Math.floor(i / 2) / Math.max(1, Math.ceil(N / 2) - 1));   // расстояние от центра
+                items.push({
+                    el: el,
+                    a0: i / N * TAU + (rnd() - 0.5) * 0.16,          // угол на кольце
+                    rk: (i % 2 ? 1 : 0.88) + (rnd() - 0.5) * 0.05,   // два слоя кольца
+                    tilt: (rnd() - 0.5) * 22,                        // наклон
+                    rr: rr,
+                    th: (i % 2) * Math.PI + rr * TAU * 0.95          // два рукава спирали
+                });
+            })(i);
+        }
+
+        var W = innerWidth, H = innerHeight, visible = true, raf = 0;
+
+        function sizeOrbit() {
+            W = innerWidth; H = innerHeight;
+            orbit.style.width = (W * (W < 700 ? 0.6 : 0.47) * 2 * 0.94) + 'px';
+            orbit.style.height = (H * 0.46 * 2 * 0.94) + 'px';
+        }
+        sizeOrbit();
+        addEventListener('resize', sizeOrbit);
+
+        function frame(t) {
+            var span = tour.offsetHeight - H;
+            var p = span > 0 ? clamp(-tour.getBoundingClientRect().top / span) : 0;
+            var e = ease(clamp((p - 0.04) / 0.5));       // кольцо → спираль
+            var out = clamp((p - 0.8) / 0.2);            // пролёт сквозь спираль
+            var idle = reduce ? 0 : t * 0.00003;
+            var ringX = W < 700 ? 0.6 : 0.47;
+
+            for (var k = 0; k < items.length; k++) {
+                var c = items[k];
+                var a = c.a0 + idle;
+                var x1 = Math.cos(a) * W * ringX * c.rk, y1 = Math.sin(a) * H * 0.46 * c.rk;
+                var th = c.th + idle * 3 + p * Math.PI * 1.6;
+                var x2 = Math.cos(th) * W * 0.46 * c.rr, y2 = Math.sin(th) * H * 0.43 * c.rr;
+                var x = lerp(x1, x2, e), y = lerp(y1, y2, e);
+                var s = lerp(1, 0.2 + 0.72 * c.rr, e), rot = lerp(c.tilt, c.tilt * 0.4, e);
+                c.el.style.transform = 'translate(-50%,-50%) translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) rotate(' + rot.toFixed(2) + 'deg) scale(' + s.toFixed(3) + ')';
+                c.el.style.zIndex = 500 + Math.round(y);
+            }
+
+            galaxy.style.transform = 'scale(' + (1 + out * 1.5).toFixed(3) + ')';
+            galaxy.style.opacity = (1 - out).toFixed(3);
+            galaxy.style.pointerEvents = out > 0.6 ? 'none' : '';
+            stars.style.opacity = (e * (1 - out)).toFixed(3);
+            orbit.style.opacity = (1 - e).toFixed(3);
+
+            var h = clamp(p / 0.22);
+            hero.style.opacity = (1 - h).toFixed(3);
+            hero.style.transform = 'translateY(' + (-h * 40).toFixed(1) + 'px)';
+            hero.style.visibility = h >= 1 ? 'hidden' : '';
+            core.style.opacity = (clamp((e - 0.7) / 0.3) * (1 - out)).toFixed(3);
+
+            raf = visible ? requestAnimationFrame(frame) : 0;
+        }
+
+        /* Анимация идёт, только пока тур на экране */
+        new IntersectionObserver(function (en) {
+            visible = en[0].isIntersecting;
+            if (visible && !raf) raf = requestAnimationFrame(frame);
+        }).observe(tour);
+        addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(frame); }, { passive: true });
+
+        $('start').addEventListener('click', function () {
+            var span = tour.offsetHeight - H;
+            var top = span > 0 ? tour.offsetTop + span * 0.62 : $('collections').offsetTop;
+            scrollTo({ top: top, behavior: reduce ? 'auto' : 'smooth' });
+        });
+    })();
+    </script>
 
 </body>
 </html>
